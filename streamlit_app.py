@@ -51,7 +51,7 @@ def navbar():
 navbar()
 
 # Set up the title and introductory image
-st.image("https://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png", width=100)
+st.image("https://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png", width=300)
 st.title("Adalflow Community App Gallery")
 
 # Data for the apps with tags
