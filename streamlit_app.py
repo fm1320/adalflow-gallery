@@ -1,11 +1,5 @@
 import streamlit as st
 import pandas as pd
-import webbrowser
-import itertools
-import ui
-
-import streamlit as st
-import pandas as pd
 
 # Set up page configuration
 st.set_page_config(
@@ -115,15 +109,19 @@ search_term = st.text_input("Search Apps", "").lower()
 # Filter apps based on search input
 filtered_apps = apps_df[apps_df['name'].str.contains(search_term) | apps_df['description'].str.contains(search_term)]
 
-# Display filtered apps
-if not filtered_apps.empty:
-    for _, app in filtered_apps.iterrows():
-        st.image(app['image'], width=200)
+# Display apps in a 2x2 grid
+cols = st.columns(2)  # Create two columns
+
+for index, app in filtered_apps.iterrows():
+    col = cols[index % 2]  # Alternate columns for each app
+    with col:
+        st.image(app['image'], use_column_width=True)
         st.subheader(app['name'])
         st.write(app['description'])
         st.markdown(f"[View App]({app['link']})")
         st.markdown(f"[View GitHub Repo]({app['repo']})")
         st.markdown("---")
-else:
-    st.info("No apps found. Try searching with different keywords.")
 
+# Message when no apps match the search term
+if filtered_apps.empty:
+    st.info("No apps found. Try searching with different keywords.")
