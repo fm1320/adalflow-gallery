@@ -4,7 +4,7 @@ import pandas as pd
 # Set up page configuration
 st.set_page_config(
     page_title="Adalflow Community App Gallery",
-    page_icon="hhttps://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png",
+    page_icon="https://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png",
 )
 
 # Navbar function
@@ -51,8 +51,8 @@ def navbar():
 navbar()
 
 # Set up the title and introductory image
-st.image("https://streamlit.io/images/brand/streamlit-mark-color.png", width=100)
-st.title("Community App Gallery")
+st.image("https://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png", width=100)
+st.title("Adalflow Community App Gallery")
 
 # Data for the apps with tags
 apps = [
