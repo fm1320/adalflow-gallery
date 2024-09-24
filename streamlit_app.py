@@ -121,6 +121,30 @@ if selected_tags:
 else:
     filtered_apps = apps_df
 
+# Function to style tags as badges
+def style_tags(tags):
+    return " ".join([f"<span class='tag'>{tag}</span>" for tag in tags])
+
+# Add custom CSS for tags
+st.markdown(
+    """
+    <style>
+    .tag {
+        display: inline-block;
+        background-color: #e0e0e0;
+        border-radius: 12px;
+        padding: 0.3em 0.6em;
+        margin: 0.2em;
+        font-size: 0.85em;
+        color: #333;
+        font-weight: 500;
+        text-align: center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Display apps in a 2x2 grid
 cols = st.columns(2)  # Create two columns
 
@@ -130,7 +154,7 @@ for index, app in filtered_apps.iterrows():
         st.image(app['image'], use_column_width=True)
         st.subheader(app['name'])
         st.write(app['description'])
-        st.write("Tags: " + ", ".join(app['tags']))
+        st.markdown(style_tags(app['tags']), unsafe_allow_html=True)
         st.markdown(f"[View App]({app['link']})")
         st.markdown(f"[View GitHub Repo]({app['repo']})")
         st.markdown("---")
