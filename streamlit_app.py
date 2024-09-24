@@ -54,7 +54,8 @@ col1, col2, col3 = st.columns([1, 2, 1])  # The middle column is wider to center
 
 with col2:
     st.image("https://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png", width=200)
-    st.title("Adalflow Community App Gallery")
+
+st.title("Adalflow Community App Gallery")
 
 # Data for the apps with tags
 apps = [
