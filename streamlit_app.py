@@ -50,12 +50,16 @@ def navbar():
 # Navbar call
 navbar()
 
-col1, col2, col3 = st.columns([1, 2, 1])  # The middle column is wider to center the content
-
-with col2:
-    st.image("https://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png", width=200)
-
-st.title("Adalflow Community App Gallery")
+# Centering the logo and title using HTML and CSS
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png" width="200" />
+        <h1>Adalflow Community App Gallery</h1>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # Data for the apps with tags
 apps = [
