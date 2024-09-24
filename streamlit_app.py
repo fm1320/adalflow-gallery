@@ -54,60 +54,72 @@ navbar()
 st.image("https://streamlit.io/images/brand/streamlit-mark-color.png", width=100)
 st.title("Community App Gallery")
 
-# Data for the apps
+# Data for the apps with tags
 apps = [
     {
         "name": "GPT Lab",
         "description": "Interactively explore data with GPT Lab, focusing on NYC Uber pickups.",
         "image": "images/GPTLab.png",
         "link": "https://gptlab.streamlit.app/",
-        "repo": "https://github.com/dclin/gptlab-streamlit"
+        "repo": "https://github.com/dclin/gptlab-streamlit",
+        "tags": ["#LLM", "#AI"]
     },
     {
         "name": "Ask my PDF",
         "description": "Explore data by uploading your PDFs and turning them into interactive dataframes.",
         "image": "images/AskMyPDF.png",
         "link": "https://ask-my-pdf.streamlit.app/",
-        "repo": "https://github.com/mobarski/ask-my-pdf"
+        "repo": "https://github.com/mobarski/ask-my-pdf",
+        "tags": ["#Data", "#Finance"]
     },
     {
         "name": "HugChat",
         "description": "Analyze live crypto data using the Binance API and visualizing trends.",
         "image": "images/HugChat.png",
         "link": "https://hugchat.streamlit.app/",
-        "repo": "https://github.com/dataprofessor/hugchat"
+        "repo": "https://github.com/dataprofessor/hugchat",
+        "tags": ["#Crypto", "#AI"]
     },
     {
         "name": "KnowledgeGPT",
         "description": "Explore knowledge bases interactively with KnowledgeGPT.",
         "image": "images/KnowledgeGPT.png",
         "link": "https://knowledgegpt.streamlit.app/",
-        "repo": "https://github.com/mmz-001/knowledge_gpt"
+        "repo": "https://github.com/mmz-001/knowledge_gpt",
+        "tags": ["#NLP", "#Knowledge"]
     },
     {
         "name": "rephraise",
         "description": "Generate paraphrased emails and content using AI.",
         "image": "images/rephraise.png",
         "link": "https://stefanrmmr-gpt3-email-generator-streamlit-app-ku3fbq.streamlit.app/",
-        "repo": "https://github.com/stefanrmmr/GPT_email_generator"
+        "repo": "https://github.com/stefanrmmr/GPT_email_generator",
+        "tags": ["#AI", "#Content"]
     },
     {
         "name": "GPT-4 Auto Coder",
         "description": "Automatically generate code with GPT-4 based on user input.",
         "image": "images/gpt-4-auto-coder.png",
         "link": "https://gpt4autocoder.streamlit.app/",
-        "repo": "https://github.com/echohive42/gpt4_autocoder"
+        "repo": "https://github.com/echohive42/gpt4_autocoder",
+        "tags": ["#Coding", "#AI", "#Automation"]
     },
 ]
 
 # Convert app data into a DataFrame for easy manipulation
 apps_df = pd.DataFrame(apps)
 
-# Search bar for filtering apps
-search_term = st.text_input("Search Apps", "").lower()
+# Get all unique tags
+all_tags = sorted(set(tag for tags in apps_df['tags'] for tag in tags))
 
-# Filter apps based on search input
-filtered_apps = apps_df[apps_df['name'].str.contains(search_term) | apps_df['description'].str.contains(search_term)]
+# Search bar for filtering apps by tags
+selected_tags = st.multiselect("Search by Tags", options=all_tags)
+
+# Filter apps based on selected tags
+if selected_tags:
+    filtered_apps = apps_df[apps_df['tags'].apply(lambda tags: any(tag in tags for tag in selected_tags))]
+else:
+    filtered_apps = apps_df
 
 # Display apps in a 2x2 grid
 cols = st.columns(2)  # Create two columns
@@ -118,10 +130,11 @@ for index, app in filtered_apps.iterrows():
         st.image(app['image'], use_column_width=True)
         st.subheader(app['name'])
         st.write(app['description'])
+        st.write("Tags: " + ", ".join(app['tags']))
         st.markdown(f"[View App]({app['link']})")
         st.markdown(f"[View GitHub Repo]({app['repo']})")
         st.markdown("---")
 
 # Message when no apps match the search term
 if filtered_apps.empty:
-    st.info("No apps found. Try searching with different keywords.")
+    st.info("No apps found. Try selecting different tags.")
