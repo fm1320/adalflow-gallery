@@ -3,8 +3,8 @@ import pandas as pd
 
 # Set up page configuration
 st.set_page_config(
-    page_title="Community App Gallery",
-    page_icon="https://streamlit.io/favicon.svg",
+    page_title="Adalflow Community App Gallery",
+    page_icon="hhttps://raw.githubusercontent.com/SylphAI-Inc/LightRAG/main/docs/source/_static/images/adalflow-logo.png",
 )
 
 # Navbar function
