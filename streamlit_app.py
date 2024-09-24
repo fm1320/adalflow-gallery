@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import re
 
 # Set up page configuration
 st.set_page_config(
@@ -88,7 +87,7 @@ apps = [
     {
         "name": "rephraise",
         "description": "Generate paraphrased emails and content using AI.",
-        "image": "images/rephrase.png",
+        "image": "images/rephraise.png",
         "link": "https://stefanrmmr-gpt3-email-generator-streamlit-app-ku3fbq.streamlit.app/",
         "repo": "https://github.com/stefanrmmr/GPT_email_generator"
     },
@@ -107,28 +106,8 @@ apps_df = pd.DataFrame(apps)
 # Search bar for filtering apps
 search_term = st.text_input("Search Apps", "").lower()
 
-# Highlight matching terms in the descriptions
-def highlight_keywords(text, keywords):
-    """
-    Highlights keywords in the text. Returns highlighted snippets around the keywords.
-    """
-    pattern = '|'.join(re.escape(word) for word in keywords)
-    matches = re.finditer(pattern, text, re.IGNORECASE)
-    snippets = []
-
-    for match in matches:
-        start, end = match.span()
-        snippet = text[max(0, start - 30):min(len(text), end + 30)]
-        highlighted = re.sub(pattern, lambda m: f"<mark>{m.group(0)}</mark>", snippet, flags=re.IGNORECASE)
-        snippets.append(highlighted)
-
-    return '... '.join(snippets)
-
 # Filter apps based on search input
-filtered_apps = apps_df[
-    apps_df['name'].str.contains(search_term) | 
-    apps_df['description'].str.contains(search_term)
-] if search_term else apps_df
+filtered_apps = apps_df[apps_df['name'].str.contains(search_term) | apps_df['description'].str.contains(search_term)]
 
 # Display apps in a 2x2 grid
 cols = st.columns(2)  # Create two columns
@@ -138,11 +117,7 @@ for index, app in filtered_apps.iterrows():
     with col:
         st.image(app['image'], use_column_width=True)
         st.subheader(app['name'])
-        if search_term:
-            highlighted_description = highlight_keywords(app['description'], search_term.split())
-            st.markdown(f"<p>{highlighted_description}</p>", unsafe_allow_html=True)
-        else:
-            st.write(app['description'])
+        st.write(app['description'])
         st.markdown(f"[View App]({app['link']})")
         st.markdown(f"[View GitHub Repo]({app['repo']})")
         st.markdown("---")
